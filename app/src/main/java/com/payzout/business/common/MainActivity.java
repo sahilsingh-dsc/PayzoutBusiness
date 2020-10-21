@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,10 +29,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.payzout.business.ProfitCalculatorActivity;
 import com.payzout.business.R;
+import com.payzout.business.apis.APIClient;
+import com.payzout.business.apis.KYCInterface;
 import com.payzout.business.common.banner.Banner;
 import com.payzout.business.common.banner.BannerAdapter;
 import com.payzout.business.common.banner.BannerInterface;
 import com.payzout.business.common.banner.BannerPresenter;
+import com.payzout.business.common.banner.WalletInterface;
 import com.payzout.business.portfolio.PortfolioActivity;
 import com.payzout.business.profile.KycActivity;
 import com.payzout.business.profile.Profile;
@@ -40,6 +44,10 @@ import com.payzout.business.utils.FirestoreConstant;
 import com.payzout.business.wallet.Wallet;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, BannerInterface {
 
@@ -62,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseFirestore db;
 
     private String uid;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,11 +119,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fetchWalletBalance();
         }
 
+        WalletInterface walletInterface = APIClient.getRetrofitInstance().create(WalletInterface.class);
+        Call<GetWalletBalance> call = walletInterface.getWallet(uid);
+        call.enqueue(new Callback<GetWalletBalance>() {
+            @Override
+            public void onResponse(Call<GetWalletBalance> call, Response<GetWalletBalance> response) {
+                Log.e(TAG, "onResponse: "+ response.code());
+            }
+
+            @Override
+            public void onFailure(Call<GetWalletBalance> call, Throwable t) {
+
+            }
+        });
+
     }
 
     private void setupPresenter() {
+
         BannerPresenter bannerPresenter = new BannerPresenter(MainActivity.this, MainActivity.this);
         bannerPresenter.fetchBanners();
+
+
     }
 
 
@@ -194,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void fetchWalletBalance() {
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(FirestoreConstant.WALLET_COLLECTION)
                 .document(firebaseAuth.getCurrentUser().getUid())
@@ -212,6 +239,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
+
+
     }
 
     private void checkForData() {

@@ -43,17 +43,23 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.payzout.business.R;
+import com.payzout.business.apis.APIClient;
+import com.payzout.business.apis.KYCInterface;
 import com.payzout.business.auth.PhoneActivity;
+import com.payzout.business.common.MainActivity;
 import com.payzout.business.utils.DatePickerFragment;
 import com.payzout.business.utils.FirestoreConstant;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class KycActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
@@ -608,6 +614,29 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
                         }
                     }
                 });
+
+        KYCInterface kycInterface = APIClient.getRetrofitInstance().create(KYCInterface.class);
+        Call<KYCResponse> call = kycInterface.sendKYCDetails(uid, email, gender, dob, pancard, aadhaar, name, address);
+        call.enqueue(new Callback<KYCResponse>() {
+            @Override
+            public void onResponse(Call<KYCResponse> call, Response<KYCResponse> response) {
+                Log.e(TAG, "onResponse: " + response.message() + response.code());
+                if (response.code() == 200) {
+                    Log.e(TAG, "onResponse: DATA ADDED");
+                    startActivity(new Intent(KycActivity.this, MainActivity.class));
+                    finish();
+                } else if (response.code() == 400) {
+                    Log.e(TAG, "onResponse: This User Is Already Exists");
+                } else {
+                    Log.e(TAG, "onResponse: Something Wnt Wrong");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<KYCResponse> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
 
     }
 
