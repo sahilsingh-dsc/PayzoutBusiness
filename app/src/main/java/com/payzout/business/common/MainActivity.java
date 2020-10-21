@@ -120,16 +120,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         WalletInterface walletInterface = APIClient.getRetrofitInstance().create(WalletInterface.class);
-        Call<GetWalletBalance> call = walletInterface.getWallet(uid);
+        Call<GetWalletBalance> call = walletInterface.getWallet("Fu8uqz8Xy5YVBFsAdtpYLKfwJWp2");
         call.enqueue(new Callback<GetWalletBalance>() {
             @Override
-            public void onResponse(Call<GetWalletBalance> call, Response<GetWalletBalance> response) {
-                Log.e(TAG, "onResponse: "+ response.code());
+            public void onResponse(@NonNull Call<GetWalletBalance> call, @NonNull Response<GetWalletBalance> response) {
+                Log.e(TAG, "onResponse: " + response.code() + response.message());
             }
 
             @Override
-            public void onFailure(Call<GetWalletBalance> call, Throwable t) {
-
+            public void onFailure(@NonNull Call<GetWalletBalance> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
 
