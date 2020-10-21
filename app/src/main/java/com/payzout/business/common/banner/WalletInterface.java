@@ -10,6 +10,6 @@ import retrofit2.http.POST;
 public interface WalletInterface {
 
     @FormUrlEncoded
-    @POST("Investor/getWalletBalance")
+    @POST("Investor/getInvestorWalletBalance")
     Call<GetWalletBalance> getWallet(@Field("investor_id") String investor_id);
 }

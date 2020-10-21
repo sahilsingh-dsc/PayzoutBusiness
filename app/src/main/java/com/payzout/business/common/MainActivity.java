@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        fetchWalletBalance();
         lvUser = findViewById(R.id.lvUser);
         ivUserPhoto = findViewById(R.id.ivUserPhoto);
         ivUserPhoto.setOnClickListener(this);
@@ -119,19 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fetchWalletBalance();
         }
 
-        WalletInterface walletInterface = APIClient.getRetrofitInstance().create(WalletInterface.class);
-        Call<GetWalletBalance> call = walletInterface.getWallet("Fu8uqz8Xy5YVBFsAdtpYLKfwJWp2");
-        call.enqueue(new Callback<GetWalletBalance>() {
-            @Override
-            public void onResponse(@NonNull Call<GetWalletBalance> call, @NonNull Response<GetWalletBalance> response) {
-                Log.e(TAG, "onResponse: " + response.code() + response.message());
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<GetWalletBalance> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
-            }
-        });
 
     }
 
@@ -221,24 +208,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void fetchWalletBalance() {
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(FirestoreConstant.WALLET_COLLECTION)
-                .document(firebaseAuth.getCurrentUser().getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            Wallet wallet = task.getResult().toObject(Wallet.class);
-                            if (wallet != null) {
-                                String walletBalance = getResources().getString(R.string.rupee) + " " + wallet.getInvested_balance();
-                                String profitBalance = getResources().getString(R.string.rupee) + " " + wallet.getProfit_balance();
-                                tvWalletBalance.setText(walletBalance);
-                                tvProfitBalance.setText(profitBalance);
-                            }
-                        }
-                    }
-                });
+        WalletInterface walletInterface = APIClient.getRetrofitInstance().create(WalletInterface.class);
+        Call<GetWalletBalance> call = walletInterface.getWallet(uid);
+        call.enqueue(new Callback<GetWalletBalance>() {
+            @Override
+            public void onResponse(@NonNull Call<GetWalletBalance> call, @NonNull Response<GetWalletBalance> response) {
+                Log.e(TAG, "onResponse: " + response.code() + response.message());
+                if (response.code() == 200) {
+                    tvProfitBalance.setText(getResources().getString(R.string.rupee) + " " + response.body().getData().getProfitBalance());
+                    //  Toast.makeText(MainActivity.this, ""+ response.body().getData().getProfitBalance() + response.body().getData().getInvestedBalance(), Toast.LENGTH_SHORT).show();
+                    tvWalletBalance.setText(getResources().getString(R.string.rupee) + " " + response.body().getData().getInvestedBalance());
+                } else if (response.code() == 400) {
+                    Log.e(TAG, "onResponse: bad request");
+                } else {
+                    Log.e(TAG, "onResponse: something went wrong");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GetWalletBalance> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
 
 
     }

@@ -52,10 +52,10 @@ public class GetWalletBalance {
         private String investorId;
         @SerializedName("invested_balance")
         @Expose
-        private Integer investedBalance;
+        private String investedBalance;
         @SerializedName("profit_balance")
         @Expose
-        private Integer profitBalance;
+        private String profitBalance;
 
         /**
          * No args constructor for use in serialization
@@ -68,7 +68,7 @@ public class GetWalletBalance {
          * @param investedBalance
          * @param profitBalance
          */
-        public Data(String investorId, Integer investedBalance, Integer profitBalance) {
+        public Data(String investorId, String investedBalance, String profitBalance) {
             super();
             this.investorId = investorId;
             this.investedBalance = investedBalance;
@@ -83,19 +83,19 @@ public class GetWalletBalance {
             this.investorId = investorId;
         }
 
-        public Integer getInvestedBalance() {
+        public String getInvestedBalance() {
             return investedBalance;
         }
 
-        public void setInvestedBalance(Integer investedBalance) {
+        public void setInvestedBalance(String investedBalance) {
             this.investedBalance = investedBalance;
         }
 
-        public Integer getProfitBalance() {
+        public String getProfitBalance() {
             return profitBalance;
         }
 
-        public void setProfitBalance(Integer profitBalance) {
+        public void setProfitBalance(String profitBalance) {
             this.profitBalance = profitBalance;
         }
 
