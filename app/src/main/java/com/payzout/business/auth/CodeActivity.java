@@ -31,6 +31,9 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.payzout.business.R;
+import com.payzout.business.apis.APIClient;
+import com.payzout.business.apis.KYCInterface;
+import com.payzout.business.common.CheckInvestor;
 import com.payzout.business.common.MainActivity;
 import com.payzout.business.common.SplashActivity;
 import com.payzout.business.utils.Constant;
@@ -38,6 +41,10 @@ import com.payzout.business.utils.FirestoreConstant;
 import com.payzout.business.wallet.Wallet;
 
 import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CodeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -106,7 +113,7 @@ public class CodeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 Log.e(TAG, "onVerificationFailed: " + e);
-                Toast.makeText(CodeActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CodeActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     Log.e(TAG, "onVerificationFailed: ");
                     Snackbar.make(frameCode, "Invalid Credentials", Snackbar.LENGTH_SHORT).show();
@@ -211,7 +218,26 @@ public class CodeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkInvestor(String uid) {
+        KYCInterface kycInterface = APIClient.getRetrofitInstance().create(KYCInterface.class);
+        Call<CheckInvestor> call = kycInterface.checkInvestor(uid);
+        call.enqueue(new Callback<CheckInvestor>() {
+            @Override
+            public void onResponse(Call<CheckInvestor> call, Response<CheckInvestor> response) {
+                Log.e(TAG, "onResponse: " + response.code() + response.message());
+                if (response.code() == 200) {
+                    gotoMain();
+                } else if (response.code() == 400) {
+                    gotoRegistration();
+                } else {
+                    Log.e(TAG, "onResponse: Something went wrong");
+                }
+            }
 
+            @Override
+            public void onFailure(Call<CheckInvestor> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
     }
 
     private void gotoMain() {

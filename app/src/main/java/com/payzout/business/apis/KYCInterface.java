@@ -1,6 +1,8 @@
 package com.payzout.business.apis;
 
+import com.payzout.business.common.CheckInvestor;
 import com.payzout.business.common.GetWalletBalance;
+import com.payzout.business.common.InvestorRegistration;
 import com.payzout.business.profile.KYCResponse;
 
 import retrofit2.Call;
@@ -24,6 +26,14 @@ public interface KYCInterface {
     );
 
     @FormUrlEncoded
-    @POST("Investor/getWalletBalance")
-    Call<GetWalletBalance> getWallet(@Field("investor_id") String investor_id);
+    @POST("Investor/CheckInvestor")
+    Call<CheckInvestor> checkInvestor(@Field("Userid") String Userid);
+
+    @FormUrlEncoded
+    @POST("Investor/investorRegistration")
+    Call<InvestorRegistration> register(@Field("id") String id,
+                                        @Field("full_name") String full_name,
+                                        @Field("phone") String phone,
+                                        @Field("city") String city);
+
 }
