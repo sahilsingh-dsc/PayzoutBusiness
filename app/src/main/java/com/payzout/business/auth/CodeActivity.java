@@ -198,7 +198,7 @@ public class CodeActivity extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             Log.e(TAG, "onComplete: ");
                             Snackbar.make(frameCode, "Successful", Snackbar.LENGTH_LONG).show();
-                            createWallet(firebaseAuth.getCurrentUser().getUid());
+                            checkInvestor(firebaseAuth.getCurrentUser().getUid());
                         } else {
                             if (task.getException() instanceof
                                     FirebaseAuthInvalidCredentialsException) {
@@ -210,8 +210,19 @@ public class CodeActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
+    private void checkInvestor(String uid) {
+
+    }
+
     private void gotoMain() {
         Intent intent = new Intent(CodeActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void gotoRegistration() {
+        Intent intent = new Intent(CodeActivity.this, RegistrationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
@@ -222,43 +233,6 @@ public class CodeActivity extends AppCompatActivity implements View.OnClickListe
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
-    private void createWallet(final String uid) {
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(FirestoreConstant.WALLET_COLLECTION)
-                .document(uid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (task.getResult().exists()) {
-                                Log.e(TAG, "onComplete: wallet exists");
-                                gotoMain();
-                            } else {
-
-                                Wallet wallet = new Wallet();
-                                wallet.setUid(uid);
-                                wallet.setInvested_balance("0");
-                                wallet.setProfit_balance("0");
-
-                                db.collection(FirestoreConstant.WALLET_COLLECTION)
-                                        .document(uid)
-                                        .set(wallet)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Log.e(TAG, "onComplete: wallet does exists");
-                                                    gotoMain();
-                                                }
-                                            }
-                                        });
-                            }
-                        }
-                    }
-                });
     }
 
 }

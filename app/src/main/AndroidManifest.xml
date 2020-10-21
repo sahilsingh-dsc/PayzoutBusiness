@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".transaction.TransactionActivity"></activity>
+        <activity android:name=".auth.RegistrationActivity"></activity>
+        <activity android:name=".transaction.TransactionActivity" />
         <activity android:name=".portfolio.PortfolioActivity" />
         <activity android:name=".profile.QRActivity" />
         <activity android:name=".profile.KycActivity" />
