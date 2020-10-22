@@ -3,18 +3,12 @@ package com.payzout.business.portfolio;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import com.payzout.business.apis.APIClient;
+import com.payzout.business.apis.KYCInterface;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.payzout.business.utils.FirestoreConstant;
-
-import java.util.ArrayList;
-import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PortfolioPresenter {
 
@@ -29,30 +23,26 @@ public class PortfolioPresenter {
     }
 
     public void fetchPortfolio(String u_id) {
-        final List<Portfolio> portfolioList = new ArrayList<>();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Query query = db.collection(FirestoreConstant.PORTFOLIO_COLLECTION)
-                .whereEqualTo("u_id", u_id).orderBy("timestamp", Query.Direction.DESCENDING);
-        query.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (!task.getResult().getDocuments().isEmpty()) {
-                                for (DocumentSnapshot snapshot : task.getResult()) {
-                                    Portfolio portfolio = snapshot.toObject(Portfolio.class);
-                                    portfolioList.add(portfolio);
-                                }
-                                portfolioInterface.portfolioFetchSuccess(portfolioList);
-                            } else {
-                                portfolioInterface.portfolioNotFound("No Data");
-                            }
-                        } else {
-                            Log.e(TAG, "onComplete: "+task.getException().getMessage());
-                            portfolioInterface.portfolioFetchFailed(task.getException().getMessage());
-                        }
-                    }
-                });
+        KYCInterface kycInterface = APIClient.getRetrofitInstance().create(KYCInterface.class);
+        Call<GetPortfolio> call = kycInterface.getPortfolio(u_id);
+        call.enqueue(new Callback<GetPortfolio>() {
+            @Override
+            public void onResponse(Call<GetPortfolio> call, Response<GetPortfolio> response) {
+                Log.e(TAG, "onResponse: " + response.code() + " " + response.message());
+                if (response.code() == 200) {
+                    portfolioInterface.portfolioFetchSuccess(response.body());
+                } else if (response.code() == 200) {
+                    portfolioInterface.portfolioNotFound("Invalid User ID");
+                } else {
+                    portfolioInterface.portfolioFetchFailed("Something went wrong");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPortfolio> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
     }
 
 }

@@ -1,33 +1,31 @@
-package com.payzout.business.transaction;
+package com.payzout.business.portfolio;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class Transaction {
+public class CreatePortfolio {
 
     @SerializedName("status")
     @Expose
     private Boolean status;
     @SerializedName("data")
     @Expose
-    private List<Transaction_Response> data = null;
+    private PortfolioResponse portfolioResponse;
 
     /**
      * No args constructor for use in serialization
      */
-    public Transaction() {
+    public CreatePortfolio() {
     }
 
     /**
-     * @param data
+     * @param portfolioResponse
      * @param status
      */
-    public Transaction(Boolean status, List<Transaction_Response> data) {
+    public CreatePortfolio(Boolean status, PortfolioResponse portfolioResponse) {
         super();
         this.status = status;
-        this.data = data;
+        this.portfolioResponse = portfolioResponse;
     }
 
     public Boolean getStatus() {
@@ -38,12 +36,12 @@ public class Transaction {
         this.status = status;
     }
 
-    public List<Transaction_Response> getData() {
-        return data;
+    public PortfolioResponse getPortfolioResponse() {
+        return portfolioResponse;
     }
 
-    public void setData(List<Transaction_Response> data) {
-        this.data = data;
+    public void setPortfolioResponse(PortfolioResponse portfolioResponse) {
+        this.portfolioResponse = portfolioResponse;
     }
 
 

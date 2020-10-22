@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,9 +19,9 @@ import java.util.List;
 public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.ViewHolder> {
 
     private Context context;
-    private List<Portfolio> portfolioList;
+    private List<GetProtfolioResponse> portfolioList;
 
-    public PortfolioAdapter(Context context, List<Portfolio> portfolioList) {
+    public PortfolioAdapter(Context context, List<GetProtfolioResponse> portfolioList) {
         this.context = context;
         this.portfolioList = portfolioList;
     }
@@ -36,16 +35,16 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull PortfolioAdapter.ViewHolder holder, int position) {
-        Portfolio portfolio = portfolioList.get(position);
-        holder.tvInvestmentDate.setText(portfolio.getP_date());
-        holder.tvInvestmentClass.setText(portfolio.getP_class());
-        String invested_balance = context.getResources().getString(R.string.rupee)+" "+portfolio.getP_amount();
+        GetProtfolioResponse portfolio = portfolioList.get(position);
+        holder.tvInvestmentDate.setText(portfolio.getDate());
+        holder.tvInvestmentClass.setText(portfolio.getClassId());
+        String invested_balance = context.getResources().getString(R.string.rupee) + " " + portfolio.getAmount();
         holder.tvInvestedBalance.setText(invested_balance);
-        String profit_balance = context.getResources().getString(R.string.rupee)+" "+portfolio.getP_profit();
+        String profit_balance = context.getResources().getString(R.string.rupee) + " " + portfolio.getProfitBalance();
         holder.tvProfitBalance.setText(profit_balance);
-        String interest_rate = portfolio.getP_interest()+context.getResources().getString(R.string.percent);
+        String interest_rate = portfolio.getProfitPercent() + context.getResources().getString(R.string.percent);
         holder.tvInterestRate.setText(interest_rate);
-        String locking_period = portfolio.getP_locking()+" "+context.getString(R.string.days);
+        String locking_period = portfolio.getLockingPeriod() + " " + context.getString(R.string.days);
         holder.tvLockingPeriod.setText(locking_period);
 
         holder.tvWithdrawFunds.setOnClickListener(new View.OnClickListener() {

@@ -702,7 +702,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDateString = dayOfMonth + "-" + months + "-" + year;
+        String currentDateString = year + "-" + months + "-" + dayOfMonth;
         etDateOfBirth.setText(currentDateString);
     }
 }

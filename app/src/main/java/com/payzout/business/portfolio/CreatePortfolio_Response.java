@@ -4,7 +4,7 @@ import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
 
-public class Portfolio {
+public class CreatePortfolio_Response {
     @ServerTimestamp
     private Date timestamp;
     private String p_id;
@@ -16,10 +16,10 @@ public class Portfolio {
     private String p_interest;
     private String p_locking;
 
-    public Portfolio() {
+    public CreatePortfolio_Response() {
     }
 
-    public Portfolio(Date timestamp, String p_id, String u_id, String p_date, String p_class, String p_amount, String p_profit, String p_interest, String p_locking) {
+    public CreatePortfolio_Response(Date timestamp, String p_id, String u_id, String p_date, String p_class, String p_amount, String p_profit, String p_interest, String p_locking) {
         this.timestamp = timestamp;
         this.p_id = p_id;
         this.u_id = u_id;

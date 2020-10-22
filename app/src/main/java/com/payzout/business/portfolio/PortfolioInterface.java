@@ -1,9 +1,9 @@
 package com.payzout.business.portfolio;
 
-import java.util.List;
-
 public interface PortfolioInterface {
-    void portfolioFetchSuccess(List<Portfolio> portfolioList);
+    void portfolioFetchSuccess(GetPortfolio getPortfolio);
+
+    //void portfolioFetchSuccess(List<PortfolioResponse.Data> portfolioList);
 
     void portfolioNotFound(String message);
 

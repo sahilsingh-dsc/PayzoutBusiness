@@ -1,19 +1,16 @@
 package com.payzout.business.portfolio;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.payzout.business.R;
-
-import java.util.List;
 
 public class PortfolioActivity extends AppCompatActivity implements View.OnClickListener, PortfolioInterface {
 
@@ -65,9 +62,10 @@ public class PortfolioActivity extends AppCompatActivity implements View.OnClick
         finish();
     }
 
+
     @Override
-    public void portfolioFetchSuccess(List<Portfolio> portfolioList) {
-        PortfolioAdapter portfolioAdapter = new PortfolioAdapter(PortfolioActivity.this, portfolioList);
+    public void portfolioFetchSuccess(GetPortfolio getPortfolio) {
+        PortfolioAdapter portfolioAdapter = new PortfolioAdapter(PortfolioActivity.this, getPortfolio.getData());
         portfolioAdapter.notifyDataSetChanged();
         recyclerPortfolio.setAdapter(portfolioAdapter);
         showData();

@@ -1,9 +1,6 @@
 package com.payzout.business;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -20,8 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.payzout.business.portfolio.Portfolio;
-import com.payzout.business.transaction.Transaction;
+import com.payzout.business.apis.APIClient;
+import com.payzout.business.apis.KYCInterface;
+import com.payzout.business.common.MainActivity;
+import com.payzout.business.portfolio.CreatePortfolio;
+import com.payzout.business.transaction.TransactionNew;
 import com.payzout.business.utils.Constant;
 import com.payzout.business.utils.FirestoreConstant;
 import com.payzout.business.wallet.Wallet;
@@ -34,6 +37,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfitCalculatorActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,7 +62,9 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
     String inv_class;
     String inv_interest;
     String inv_locking;
+    private static final String TAG = "ProfitCalculatorActivit";
     boolean kyc = false;
+    String pid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +136,9 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
         firebaseAuth = FirebaseAuth.getInstance();
         uid = firebaseAuth.getCurrentUser().getUid();
 
+
+        DocumentReference documentReference = db.collection(FirestoreConstant.TRANSACTION_COLLECTION).document();
+        pid = documentReference.getId();
         checkForKYC();
 
     }
@@ -178,6 +190,7 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View view) {
         if (view == tvInvestNow) {
+
             if (kyc) {
                 startPayment();
             } else {
@@ -213,7 +226,8 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
 
             @Override
             public void onTransactionSuccess() {
-                createTransaction(id, uid);
+
+                createPortfolio(pid, uid, tieInvestmentAmount.getText().toString());
             }
 
             @Override
@@ -240,52 +254,59 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
     }
 
     private void createTransaction(final String id, final String uid) {
-        Transaction transaction = new Transaction();
-        transaction.setT_id(id);
-        transaction.setU_id(uid);
-        transaction.setT_type(Constant.TXN_TYPE_CREDIT);
-        transaction.setT_amount(tieInvestmentAmount.getText().toString());
-        transaction.setT_date(getCurrentDate());
-        transaction.setT_time(getCurrentTime());
-        transaction.setT_remark(Constant.TXN_REMARK_INVESTMENT);
-        transaction.setT_status(Constant.TXN_SUCCESS);
+        TransactionNew transactionResponse = new TransactionNew();
+        transactionResponse.setT_id(id);
+        transactionResponse.setU_id(uid);
+        transactionResponse.setT_type(Constant.TXN_TYPE_CREDIT);
+        transactionResponse.setT_amount(tieInvestmentAmount.getText().toString());
+        transactionResponse.setT_date(getCurrentDate());
+        transactionResponse.setT_time(getCurrentTime());
+        transactionResponse.setT_remark(Constant.TXN_REMARK_INVESTMENT);
+        transactionResponse.setT_status(Constant.TXN_SUCCESS);
 
         db.collection(FirestoreConstant.TRANSACTION_COLLECTION)
                 .document(id)
-                .set(transaction)
+                .set(transactionResponse)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            createPortfolio(id, uid);
+                            createPortfolio(id, uid, tieInvestmentAmount.getText().toString());
                         }
                     }
                 });
 
     }
 
-    private void createPortfolio(String id, String uid) {
-        Portfolio portfolio = new Portfolio();
-        portfolio.setP_id(id);
-        portfolio.setU_id(uid);
-        portfolio.setP_date(getCurrentDate());
-        portfolio.setP_amount(tieInvestmentAmount.getText().toString());
-        portfolio.setP_profit("0");
-        portfolio.setP_class(inv_class);
-        portfolio.setP_interest(inv_interest);
-        portfolio.setP_locking(inv_locking);
+    private void createPortfolio(String pid, String uid, String s) {
 
-        db.collection(FirestoreConstant.PORTFOLIO_COLLECTION)
-                .document(id)
-                .set(portfolio)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            fetchOldBalance(tieInvestmentAmount.getText().toString());
-                        }
-                    }
-                });
+        Log.e(TAG, "createPortfolio: " + pid + " " + uid + " " + s);
+        KYCInterface kycInterface = APIClient.getRetrofitInstance().create(KYCInterface.class);
+        Call<CreatePortfolio> call = kycInterface.createPortfolio(pid, uid, s);
+        call.enqueue(new Callback<CreatePortfolio>() {
+            @Override
+            public void onResponse(Call<CreatePortfolio> call, Response<CreatePortfolio> response) {
+                Log.e(TAG, "onResponse: " + response.code() + response.message());
+                if (response.code() == 200) {
+                    Log.e(TAG, "onResponse: Portfolio created");
+                    Toast.makeText(ProfitCalculatorActivity.this, "New Portfolio Created", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ProfitCalculatorActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (response.code() == 400) {
+                    Log.e(TAG, "onResponse: Portfolio not created");
+
+                } else {
+                    Log.e(TAG, "onResponse: Something went wrong");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreatePortfolio> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+
     }
 
     private String getCurrentDate() {
@@ -328,7 +349,7 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
                                 Wallet wallet = task.getResult().toObject(Wallet.class);
                                 int invested = Integer.parseInt(wallet.getInvested_balance());
                                 int amountToUpdate = Integer.parseInt(amount);
-                                int total = invested+amountToUpdate;
+                                int total = invested + amountToUpdate;
                                 updateWalletBalance(total);
                             }
                         }
@@ -338,7 +359,7 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
 
     private void updateWalletBalance(int total) {
         HashMap hashMap = new HashMap();
-        hashMap.put("invested_balance", total+"");
+        hashMap.put("invested_balance", total + "");
         db.collection(FirestoreConstant.WALLET_COLLECTION)
                 .document(uid)
                 .update(hashMap)

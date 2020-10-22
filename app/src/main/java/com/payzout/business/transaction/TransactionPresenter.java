@@ -3,18 +3,12 @@ package com.payzout.business.transaction;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import com.payzout.business.apis.APIClient;
+import com.payzout.business.apis.KYCInterface;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.payzout.business.utils.FirestoreConstant;
-
-import java.util.ArrayList;
-import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TransactionPresenter {
     private Context context;
@@ -28,30 +22,26 @@ public class TransactionPresenter {
     }
 
     public void fetchTransactions(String u_id) {
-        final List<Transaction> transactionList = new ArrayList<>();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Query query = db.collection(FirestoreConstant.TRANSACTION_COLLECTION)
-                .whereEqualTo("u_id", u_id).orderBy("timestamp", Query.Direction.DESCENDING);
-        query.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (!task.getResult().getDocuments().isEmpty()) {
-                                for (DocumentSnapshot snapshot : task.getResult()) {
-                                    Transaction transaction = snapshot.toObject(Transaction.class);
-                                    transactionList.add(transaction);
-                                }
-                                transactionInterface.transactionFetchSuccess(transactionList);
-                            } else {
-                                transactionInterface.transactionNotFound("No Data");
-                            }
-                        } else {
-                            Log.e(TAG, "onComplete: " + task.getException().getMessage());
-                            transactionInterface.transactionFetchFailed(task.getException().getMessage());
-                        }
-                    }
-                });
+        KYCInterface kycInterface = APIClient.getRetrofitInstance().create(KYCInterface.class);
+        Call<Transaction> call = kycInterface.getTransaction(u_id);
+        call.enqueue(new Callback<Transaction>() {
+            @Override
+            public void onResponse(Call<Transaction> call, Response<Transaction> response) {
+                Log.e(TAG, "onResponse: " + response.code() + response.message());
+                if (response.code() == 200) {
+                    transactionInterface.transactionFetchSuccess(response.body());
+                } else if (response.code() == 400) {
+                    transactionInterface.transactionNotFound("transaction not found");
+                } else {
+                    transactionInterface.transactionFetchFailed("Something went wrong");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Transaction> call, Throwable t) {
+
+            }
+        });
     }
 
 }

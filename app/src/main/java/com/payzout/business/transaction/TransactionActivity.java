@@ -1,18 +1,16 @@
 package com.payzout.business.transaction;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.payzout.business.R;
-
-import java.util.List;
 
 public class TransactionActivity extends AppCompatActivity implements View.OnClickListener, TransactionInterface {
 
@@ -63,9 +61,10 @@ public class TransactionActivity extends AppCompatActivity implements View.OnCli
         finish();
     }
 
+
     @Override
-    public void transactionFetchSuccess(List<Transaction> transactionList) {
-        TransactionAdapter transactionAdapter = new TransactionAdapter(TransactionActivity.this, transactionList);
+    public void transactionFetchSuccess(Transaction transaction) {
+        TransactionAdapter transactionAdapter = new TransactionAdapter(TransactionActivity.this, transaction.getData());
         transactionAdapter.notifyDataSetChanged();
         recyclerTransactions.setAdapter(transactionAdapter);
         showData();

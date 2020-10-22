@@ -8,7 +8,7 @@
     <string name="manage">Manage</string>
     <string name="profile">Profile</string>
     <string name="profit_calculator">Profit Calculator</string>
-    <string name="portfolio">Portfolio</string>
+    <string name="createPortfolio">Portfolio</string>
     <string name="title_activity_kyc">KycActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

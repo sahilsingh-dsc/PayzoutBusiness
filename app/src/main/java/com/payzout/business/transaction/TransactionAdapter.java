@@ -17,11 +17,11 @@ import java.util.List;
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
 
     private Context context;
-    private List<Transaction> transactionList;
+    private List<Transaction_Response> transactionResponseList;
 
-    public TransactionAdapter(Context context, List<Transaction> transactionList) {
+    public TransactionAdapter(Context context, List<Transaction_Response> transactionResponseList) {
         this.context = context;
-        this.transactionList = transactionList;
+        this.transactionResponseList = transactionResponseList;
     }
 
     @NonNull
@@ -33,32 +33,27 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull TransactionAdapter.ViewHolder holder, int position) {
-        Transaction transaction = transactionList.get(position);
-        String amount = context.getResources().getString(R.string.rupee)+" "+transaction.getT_amount();
+        Transaction_Response transactionResponse = transactionResponseList.get(position);
+        String amount = context.getResources().getString(R.string.rupee) + " " + transactionResponse.getAmount();
         holder.tvAmount.setText(amount);
-        String datetime = transaction.getT_date()+" ~ "+transaction.getT_time();
+        String datetime = transactionResponse.getDate() + " ~ " + transactionResponse.getTime();
         holder.tvDateTime.setText(datetime);
-        holder.tvRemark.setText(transaction.getT_remark());
+        holder.tvRemark.setText(transactionResponse.getRemark());
 
-        switch (transaction.getT_status()) {
-            case "1":
-                holder.tvStatus.setText(Constant.TXN_SUCCESS);
-                break;
-            case "2":
-                holder.tvStatus.setText(Constant.TXN_PROCESSING);
-                break;
-            case "3":
-                holder.tvStatus.setText(Constant.TXN_PENDING);
-                break;
-            case "0":
-                holder.tvStatus.setText(Constant.TXN_FAILED);
-                break;
+        if (transactionResponse.getStatus().equals("0")) {
+            holder.tvStatus.setText(Constant.TXN_FAILED);
+        } else if (transactionResponse.getStatus().equals("1")) {
+            holder.tvStatus.setText(Constant.TXN_PENDING);
+        } else if (transactionResponse.getStatus().equals("2")) {
+            holder.tvStatus.setText(Constant.TXN_PROCESSING);
+        } else if (transactionResponse.getStatus().equals("3")) {
+            holder.tvStatus.setText(Constant.TXN_SUCCESS);
         }
     }
 
     @Override
     public int getItemCount() {
-        return transactionList.size();
+        return transactionResponseList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
