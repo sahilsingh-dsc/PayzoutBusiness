@@ -15,4 +15,6 @@ public class Constant {
 
     public static final String TXN_REMARK_INVESTMENT = "Investment Recharge";
 
+    public static final String PB_LOGO = "https://firebasestorage.googleapis.com/v0/b/payzout.appspot.com/o/Payzout%20App%20Crop%20(3).png?alt=media&token=7c05a5a2-a4fe-40ac-90a0-ec849b86ffde";
+
 }
