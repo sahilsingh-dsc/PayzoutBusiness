@@ -62,4 +62,6 @@ public interface KYCInterface {
     @FormUrlEncoded
     @POST("Investor/getInvestorProfile")
     Call<GetProfile> getProfile(@Field("user_id") String user_id);
+
+    //
 }
