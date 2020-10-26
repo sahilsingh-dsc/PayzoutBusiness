@@ -105,6 +105,13 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
     private boolean genderStatus = false;
     private boolean completeAddressStatus = false;
 
+    private boolean kycEmailStatus = false;
+    private boolean kycPANStatus = false;
+    private boolean kycAadhaarStatus = false;
+    private boolean kycDOBStatus = false;
+    private boolean kycADDRESSStatus = false;
+
+
     private static final String TAG = "KycActivity";
 
     private Uri filePath;
@@ -572,6 +579,22 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    private void checkKYCValidation() {
+        Log.e(TAG, "checkKYCValidation: " + kycEmailStatus + " " + kycPANStatus + " " + kycAadhaarStatus + " " + kycDOBStatus + " " + kycADDRESSStatus + " ");
+
+        if (kycEmailStatus && kycPANStatus && kycAadhaarStatus && kycAadhaarStatus && kycDOBStatus && kycADDRESSStatus) {
+
+            tvUpdateDetails.setEnabled(false);
+            tvUpdateDetails.setBackground(getResources().getDrawable(R.drawable.bg_text_box));
+            tvUpdateDetails.setTextColor(getResources().getColor(R.color.colorTextH2));
+        } else {
+            tvUpdateDetails.setEnabled(true);
+            tvUpdateDetails.setBackground(getResources().getDrawable(R.drawable.bg_button));
+            tvUpdateDetails.setTextColor(getResources().getColor(R.color.colorTextH3));
+
+        }
+    }
+
     private void doUpdateProfile() {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         String photo = imageURL;
@@ -585,6 +608,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
         String address = etCompleteAddress.getText().toString();
         String phone = firebaseAuth.getCurrentUser().getPhoneNumber();
         String phoneTrim = phone.replace("+91", "");
+        int gen = 0;
 
         Profile profile = new Profile();
         profile.setUid(uid);
@@ -596,6 +620,14 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
         profile.setAadhaar(aadhaar);
         profile.setDob(dob);
         profile.setGender(gender);
+        if (gender.equals("Male")) {
+            gen = 1;
+        } else if (gender.equals("Female")) {
+            gen = 2;
+        } else if (gender.equals("Other")) {
+            gen = 0;
+        }
+
         profile.setAddress(address);
 
         disableUI();
@@ -616,7 +648,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
                 });
 
         KYCInterface kycInterface = APIClient.getRetrofitInstance().create(KYCInterface.class);
-        Call<KYCResponse> call = kycInterface.sendKYCDetails(uid, email, gender, dob, pancard, aadhaar, name, address);
+        Call<KYCResponse> call = kycInterface.sendKYCDetails(uid, email, gen, dob, pancard, aadhaar, name, address);
         call.enqueue(new Callback<KYCResponse>() {
             @Override
             public void onResponse(Call<KYCResponse> call, Response<KYCResponse> response) {
@@ -670,22 +702,71 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void setProfile() {
+
         SharedPreferences preferences = getSharedPreferences("profile", 0);
-        String name = preferences.getString("name", "Complete KYC");
+        final String name = preferences.getString("name", "Complete KYC");
         if (name.equals("Complete KYC")) {
             ivKycStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_error_24));
             tvUpdateDetails.setVisibility(View.VISIBLE);
         } else {
-            ivKycStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_check_circle_24));
-            tvUpdateDetails.setVisibility(View.GONE);
-            etFullName.setText(preferences.getString("name", ""));
-            etEmail.setText(preferences.getString("email", ""));
-            etPanNumber.setText(preferences.getString("pancard", ""));
-            etAadhaarNumber.setText(preferences.getString("aadhaar", ""));
-            etDateOfBirth.setText(preferences.getString("dob", ""));
-            etGender.setText(preferences.getString("gender", ""));
-            etCompleteAddress.setText(preferences.getString("address", ""));
-            disableUI();
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            String uid = firebaseAuth.getCurrentUser().getUid();
+//            ivKycStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_check_circle_24));
+//            tvUpdateDetails.setVisibility(View.GONE);
+//            etFullName.setText(preferences.getString("name", ""));
+//            etEmail.setText(preferences.getString("email", ""));
+//            etPanNumber.setText(preferences.getString("pancard", ""));
+//            etAadhaarNumber.setText(preferences.getString("aadhaar", ""));
+//            etDateOfBirth.setText(preferences.getString("dob", ""));
+//            etGender.setText(preferences.getString("gender", ""));
+//            etCompleteAddress.setText(preferences.getString("address", ""));
+
+            KYCInterface kycInterface = APIClient.getRetrofitInstance().create(KYCInterface.class);
+            Call<GetProfile> call = kycInterface.getProfile(uid);
+            call.enqueue(new Callback<GetProfile>() {
+                @Override
+                public void onResponse(Call<GetProfile> call, Response<GetProfile> response) {
+                    Log.e(TAG, "onResponse: " + response.code() + response.message());
+
+                    String email = response.body().getGetProfileResponse().getEmail();
+
+                    String panNumber = response.body().getGetProfileResponse().getPancard();
+                    String aadhaar = response.body().getGetProfileResponse().getAadhaar();
+                    String DOB = response.body().getGetProfileResponse().getDob();
+                    String address = response.body().getGetProfileResponse().getAddress();
+
+                    Log.e(TAG, "onResponse: " + email + panNumber + aadhaar + DOB + address);
+                    if (response.code() == 200) {
+                        etFullName.setText("" + response.body().getGetProfileResponse().getFullName());
+                        etEmail.setText(email);
+                        etPanNumber.setText(panNumber);
+                        etAadhaarNumber.setText(aadhaar);
+                        etDateOfBirth.setText(DOB);
+                        etCompleteAddress.setText(address);
+                        if (!name.isEmpty() && !email.isEmpty() && !panNumber.isEmpty() && !aadhaar.isEmpty() && !DOB.isEmpty() && !address.isEmpty()) {
+                            disableUI();
+                        }
+                        Log.e(TAG, "onResponseAGENDER: " + response.body().getGetProfileResponse().getGender() + "");
+                        if (response.body().getGetProfileResponse().getGender() == 1) {
+                            etGender.setText("Male");
+                        } else if (response.body().getGetProfileResponse().getGender() == 2) {
+                            etGender.setText("Female");
+                        }
+//                        disableUI();
+
+                    } else if (response.code() == 400) {
+                        Log.e(TAG, "onResponse: user not found");
+                    } else {
+                        Log.e(TAG, "onResponse: Something went wrong");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetProfile> call, Throwable t) {
+                    Log.e(TAG, "onFailure: " + t.getMessage());
+                }
+            });
+
         }
         Glide.with(KycActivity.this).load(preferences.getString("photo", "")).placeholder(R.drawable.ic_baseline_account_circle_24).into(ivUserPhoto);
         tvName.setText(name);

@@ -4,6 +4,7 @@ import com.payzout.business.common.CheckInvestor;
 import com.payzout.business.common.InvestorRegistration;
 import com.payzout.business.portfolio.CreatePortfolio;
 import com.payzout.business.portfolio.GetPortfolio;
+import com.payzout.business.profile.GetProfile;
 import com.payzout.business.profile.KYCResponse;
 import com.payzout.business.transaction.Transaction;
 
@@ -19,7 +20,7 @@ public interface KYCInterface {
     @POST("Investor/doKyc")
     Call<KYCResponse> sendKYCDetails(@Field("id") String id,
                                      @Field("email") String email,
-                                     @Field("gender") String gender,
+                                     @Field("gender") int gender,
                                      @Field("dob") String dob,
                                      @Field("pancard") String pancard,
                                      @Field("aadhaar") String aadhaar,
@@ -57,4 +58,8 @@ public interface KYCInterface {
 
 
     );
+
+    @FormUrlEncoded
+    @POST("Investor/getInvestorProfile")
+    Call<GetProfile> getProfile(@Field("user_id") String user_id);
 }
