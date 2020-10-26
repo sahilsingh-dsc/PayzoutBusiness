@@ -1,6 +1,8 @@
 package com.payzout.business;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,9 +30,13 @@ import com.payzout.business.transaction.TransactionNew;
 import com.payzout.business.utils.Constant;
 import com.payzout.business.utils.FirestoreConstant;
 import com.payzout.business.wallet.Wallet;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 import com.shreyaspatil.EasyUpiPayment.EasyUpiPayment;
 import com.shreyaspatil.EasyUpiPayment.listener.PaymentStatusListener;
 import com.shreyaspatil.EasyUpiPayment.model.TransactionDetails;
+
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -42,7 +48,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfitCalculatorActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfitCalculatorActivity extends AppCompatActivity implements View.OnClickListener, PaymentResultListener {
 
     private TextView tvInvestmentAmount;
     private TextView tvProfitPerMonth;
@@ -64,7 +70,6 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
     String inv_locking;
     private static final String TAG = "ProfitCalculatorActivit";
     boolean kyc = false;
-    String pid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,9 +141,6 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
         firebaseAuth = FirebaseAuth.getInstance();
         uid = firebaseAuth.getCurrentUser().getUid();
 
-
-        DocumentReference documentReference = db.collection(FirestoreConstant.TRANSACTION_COLLECTION).document();
-        pid = documentReference.getId();
         checkForKYC();
 
     }
@@ -190,7 +192,6 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View view) {
         if (view == tvInvestNow) {
-
             if (kyc) {
                 startPayment();
             } else {
@@ -207,82 +208,41 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
     private void startPayment() {
         DocumentReference documentReference = db.collection(FirestoreConstant.TRANSACTION_COLLECTION).document();
         final String id = documentReference.getId();
-        DecimalFormat form = new DecimalFormat("0.00");
-        EasyUpiPayment easyUpiPayment = new EasyUpiPayment.Builder()
-                .with(ProfitCalculatorActivity.this)
-                .setPayeeVpa("ddplan@upi")
-                .setPayeeName(getResources().getString(R.string.app_name))
-                .setTransactionId(id)
-                .setTransactionRefId(id)
-                .setDescription("Payzout Investment")
-                .setAmount(form.format(investAmt))
-                .build();
-        easyUpiPayment.startPayment();
-        easyUpiPayment.setPaymentStatusListener(new PaymentStatusListener() {
-            @Override
-            public void onTransactionCompleted(TransactionDetails transactionDetails) {
-
-            }
-
-            @Override
-            public void onTransactionSuccess() {
-
-                createPortfolio(pid, uid, tieInvestmentAmount.getText().toString());
-            }
-
-            @Override
-            public void onTransactionSubmitted() {
-                Toast.makeText(ProfitCalculatorActivity.this, "Submitted", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onTransactionFailed() {
-                Toast.makeText(ProfitCalculatorActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onTransactionCancelled() {
-                Toast.makeText(ProfitCalculatorActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAppNotFound() {
-                Toast.makeText(ProfitCalculatorActivity.this, "Intent not found", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        double amount = investAmt * 100;
+        doPayment(amount);
     }
 
-    private void createTransaction(final String id, final String uid) {
-        TransactionNew transactionResponse = new TransactionNew();
-        transactionResponse.setT_id(id);
-        transactionResponse.setU_id(uid);
-        transactionResponse.setT_type(Constant.TXN_TYPE_CREDIT);
-        transactionResponse.setT_amount(tieInvestmentAmount.getText().toString());
-        transactionResponse.setT_date(getCurrentDate());
-        transactionResponse.setT_time(getCurrentTime());
-        transactionResponse.setT_remark(Constant.TXN_REMARK_INVESTMENT);
-        transactionResponse.setT_status(Constant.TXN_SUCCESS);
-
-        db.collection(FirestoreConstant.TRANSACTION_COLLECTION)
-                .document(id)
-                .set(transactionResponse)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            createPortfolio(id, uid, tieInvestmentAmount.getText().toString());
-                        }
-                    }
-                });
-
+    private void doPayment(double amount) {
+        Activity activity = this;
+        Checkout checkout = new Checkout();
+        try {
+            JSONObject options = new JSONObject();
+            options.put("name", "Payzout Business");
+            options.put("description", "Investment");
+            options.put("image", Constant.PB_LOGO);
+            options.put("currency", "INR");
+            options.put("amount", 100);
+            JSONObject preFill = new JSONObject();
+            SharedPreferences preferences = getSharedPreferences("profile", 0);
+            String email = preferences.getString("email", "none");
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            String phone = firebaseAuth.getCurrentUser().getPhoneNumber();
+            String phoneTrim = phone.replace("+91", "");
+            preFill.put("email", email);
+            preFill.put("contact", phoneTrim);
+            options.put("prefill", preFill);
+            checkout.open(activity, options);
+        } catch (Exception e) {
+            Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
-    private void createPortfolio(String pid, String uid, String s) {
 
-        Log.e(TAG, "createPortfolio: " + pid + " " + uid + " " + s);
+    private void createPortfolio(String pid, String uid, String amount) {
+        Log.e(TAG, "createPortfolio: " + pid + " " + uid + " " + amount);
         KYCInterface kycInterface = APIClient.getRetrofitInstance().create(KYCInterface.class);
-        Call<CreatePortfolio> call = kycInterface.createPortfolio(pid, uid, s);
+        Call<CreatePortfolio> call = kycInterface.createPortfolio(pid, uid, amount);
         call.enqueue(new Callback<CreatePortfolio>() {
             @Override
             public void onResponse(Call<CreatePortfolio> call, Response<CreatePortfolio> response) {
@@ -373,4 +333,16 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
                 });
     }
 
+    @Override
+    public void onPaymentSuccess(String s) {
+        Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
+        DocumentReference documentReference = db.collection(FirestoreConstant.TRANSACTION_COLLECTION).document();
+        String id = documentReference.getId();
+        createPortfolio(id, uid, String.valueOf(investAmt));
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        Toast.makeText(this, "Payment Error: "+s, Toast.LENGTH_SHORT).show();
+    }
 }

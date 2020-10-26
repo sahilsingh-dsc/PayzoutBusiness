@@ -146,28 +146,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if (v == tvProceed) {
-            doShowConfirmationDialog();
+            doUpdateProfile();
         }
-    }
-
-    private void doShowConfirmationDialog() {
-        new MaterialAlertDialogBuilder(RegistrationActivity.this)
-                .setTitle("Register Confirmation")
-                .setMessage("Are you sure, you cannot modify these details once you update.")
-                .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        doUpdateProfile();
-                        dialogInterface.dismiss();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .show();
     }
 
     private void doUpdateProfile() {

@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void gotoPlayStore() {
-        Uri marketUri = Uri.parse("market://details?id=" + "com.payzout.customer");
+        Uri marketUri = Uri.parse("market://details?id=" + "com.payzout.borrower");
         startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
     }
 
