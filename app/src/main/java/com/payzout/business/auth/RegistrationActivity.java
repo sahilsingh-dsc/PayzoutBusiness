@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -29,9 +30,9 @@ import retrofit2.Response;
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private PayzoutLoading payzoutLoading;
-    private TextInputEditText etFullName;
-    private TextInputEditText etPhoneNumber;
-    private TextInputEditText etCity;
+    private EditText etFullName;
+    private EditText etPhoneNumber;
+    private EditText etCity;
     private boolean fullNameStatus = false;
     private boolean phoneNumberStatus = false;
     private boolean cityStatus = false;

@@ -5,23 +5,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorTextH4"
     android:orientation="vertical"
     tools:context=".profile.KycActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:layout_height="80dp"
+        android:background="@drawable/header"
         android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/ivGoBack"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginEnd="8dp"
+            android:layout_gravity="top"
             android:background="?android:selectableItemBackgroundBorderless"
-            android:padding="16dp"
-            android:src="@drawable/ic_baseline_arrow_back_white_24" />
+            android:padding="14dp"
+            android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
 
 
         <LinearLayout
@@ -29,6 +30,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="top"
             android:orientation="vertical">
 
             <LinearLayout
@@ -48,10 +51,10 @@
 
                 <ImageView
                     android:id="@+id/ivKycStatus"
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="4dp"
-                    android:src="@drawable/ic_baseline_error_24"/>
+                    android:src="@drawable/warning_sign"/>
 
             </LinearLayout>
 
@@ -71,9 +74,10 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="8dp"
+            android:layout_gravity="top"
             android:background="?android:selectableItemBackgroundBorderless"
             android:padding="16dp"
-            android:src="@drawable/ic_baseline_exit_to_app_24" />
+            android:src="@drawable/logout" />
 
     </LinearLayout>
 
@@ -102,7 +106,7 @@
                     app:civ_border_width="1dp"
                     android:layout_gravity="center"
                     app:civ_border_color="@color/colorTextH2"
-                    android:src="@drawable/ic_baseline_account_circle_24"/>
+                    android:src="@drawable/ic_user_profile"/>
 
                 <ProgressBar
                     android:id="@+id/progressPhoto"
@@ -124,67 +128,114 @@
                 android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/montserrat"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiFullName"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <EditText
+                android:id="@+id/etFullName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
-                android:hint="Full name"
-                android:layout_marginEnd="16dp">
+                android:layout_marginEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:hint="Full Name"
+                android:maxLength="40"
+                android:background="@drawable/bg_text_box_new"
+                android:inputType="text"
+                android:fontFamily="@font/montserrat"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etFullName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLength="40"
-                    android:fontFamily="@font/montserrat"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiEmail"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <EditText
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
-                android:hint="Email"
-                android:layout_marginEnd="16dp">
+                android:layout_marginEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:hint="Enter Email"
+                android:background="@drawable/bg_text_box_new"
+                android:inputType="text"
+                android:fontFamily="@font/montserrat"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiPanNumber"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <EditText
+                android:id="@+id/etPanNumber"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
-                android:hint="Pancard number"
-                android:layout_marginEnd="16dp">
+                android:layout_marginEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:hint="Pancard Number"
+                android:maxLength="10"
+                android:background="@drawable/bg_text_box_new"
+                android:inputType="text"
+                android:fontFamily="@font/montserrat"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPanNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLength="10"
-                    android:fontFamily="@font/montserrat"/>
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/tiFullName"-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:hint="Full name"-->
+<!--                android:layout_marginEnd="16dp">-->
 
-            </com.google.android.material.textfield.TextInputLayout>
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etFullName"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:maxLength="40"-->
+<!--                    android:fontFamily="@font/montserrat"/>-->
 
-            <com.google.android.material.card.MaterialCardView
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/tiEmail"-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:hint="Email"-->
+<!--                android:layout_marginEnd="16dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etEmail"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/montserrat"/>-->
+
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/tiPanNumber"-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:hint="Pancard number"-->
+<!--                android:layout_marginEnd="16dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etPanNumber"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:maxLength="10"-->
+<!--                    android:fontFamily="@font/montserrat"/>-->
+
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/cardKYC"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:visibility="gone"
                 android:layout_marginEnd="16dp">
@@ -229,86 +280,143 @@
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                android:layout_marginTop="4dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tiAadhaarNumber"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <EditText
+                    android:id="@+id/etAadhaarNumber"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Aadhaar number">
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textSize="16sp"
+                    android:maxLength="12"
+                    android:hint="Aadhaar Number"
+                    android:background="@drawable/bg_text_box_new"
+                    android:inputType="text"
+                    android:fontFamily="@font/montserrat"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etAadhaarNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLength="12"
-                        android:inputType="number"
-                        android:fontFamily="@font/montserrat"/>
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:id="@+id/tiAadhaarNumber"-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Aadhaar number">-->
 
-                </com.google.android.material.textfield.TextInputLayout>
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:id="@+id/etAadhaarNumber"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:maxLength="12"-->
+<!--                        android:inputType="number"-->
+<!--                        android:fontFamily="@font/montserrat"/>-->
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tiDateOfBirth"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+
+                <EditText
+                    android:id="@+id/etDateOfBirth"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textSize="16sp"
+                    android:hint="Date of birth"
                     android:focusable="false"
-                    android:hint="Date of birth">
+                    android:background="@drawable/bg_text_box_new"
+                    android:inputType="text"
+                    android:fontFamily="@font/montserrat"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etDateOfBirth"
-                        android:focusable="false"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:id="@+id/tiDateOfBirth"-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="4dp"-->
+<!--                    android:focusable="false"-->
+<!--                    android:hint="Date of birth">-->
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tiGender"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:id="@+id/etDateOfBirth"-->
+<!--                        android:focusable="false"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:fontFamily="@font/montserrat" />-->
+
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+                <AutoCompleteTextView
+                    android:id="@+id/etGender"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:hint="Gender">
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textSize="16sp"
+                    android:hint="Gender"
+                    android:focusable="false"
+                    android:background="@drawable/bg_text_box_new"
+                    android:inputType="none"
+                    android:fontFamily="@font/montserrat"/>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/etGender"
-                        android:inputType="none"
-                        android:focusable="false"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"/>
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:id="@+id/tiGender"-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="4dp"-->
+<!--                    android:hint="Gender">-->
 
-                </com.google.android.material.textfield.TextInputLayout>
+<!--                    <AutoCompleteTextView-->
+<!--                        android:id="@+id/etGender"-->
+<!--                        android:inputType="none"-->
+<!--                        android:focusable="false"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:fontFamily="@font/montserrat"/>-->
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tiCompleteAddress"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+                <EditText
+                    android:id="@+id/etCompleteAddress"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="16dp"
-                    android:hint="Complete address">
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textSize="16sp"
+                    android:hint="Complete address"
+                    android:focusable="false"
+                    android:background="@drawable/bg_text_box_new"
+                    android:inputType="none"
+                    android:fontFamily="@font/montserrat"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etCompleteAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"/>
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:id="@+id/tiCompleteAddress"-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="4dp"-->
+<!--                    android:layout_marginBottom="16dp"-->
+<!--                    android:hint="Complete address">-->
 
-                </com.google.android.material.textfield.TextInputLayout>
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:id="@+id/etCompleteAddress"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:fontFamily="@font/montserrat"/>-->
+
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
 
             </LinearLayout>
 
@@ -323,14 +431,14 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:background="@drawable/bg_text_box"
+        android:background="@drawable/bg_button"
         android:enabled="false"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="Update details"
-        android:textColor="@color/colorTextH2"
+        android:textColor="@color/colorTextH3"
         android:textSize="16sp" />
 
 </LinearLayout>

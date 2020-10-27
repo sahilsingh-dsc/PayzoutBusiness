@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    tools:context=".common.OnboardActivity">
+
+    <ImageView
+        android:id="@+id/ivOnboard"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/slider_1"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/tvOnboardTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:gravity="center"
+            android:textColor="@color/colorTextH1"
+            android:fontFamily="@font/montserrat"
+            android:text="Invest with Payzout Business we provide a dedicated manager for you to help. "/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+
+            <ImageView
+                android:id="@+id/ivSlide1"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:padding="2dp"
+                android:src="@drawable/slider_selected"/>
+
+            <ImageView
+                android:id="@+id/ivSlide2"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:padding="2dp"
+                android:src="@drawable/slider_unselect" />
+
+            <ImageView
+                android:id="@+id/ivSlide3"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:padding="2dp"
+                android:src="@drawable/slider_unselect"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSkipSlider"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_bold"
+        android:background="@drawable/bg_button"
+        android:textColor="@color/colorTextH3"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Skip"/>
+</LinearLayout>

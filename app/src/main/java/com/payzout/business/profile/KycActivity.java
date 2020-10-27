@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -65,27 +66,27 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
 
     private MaterialCardView cardKYC;
 
-    private TextInputLayout tiFullName;
-    private TextInputEditText etFullName;
+    //private TextInputLayout tiFullName;
+    private EditText etFullName;
 
-    private TextInputLayout tiEmail;
-    private TextInputEditText etEmail;
+   // private TextInputLayout tiEmail;
+    private EditText etEmail;
 
-    private TextInputLayout tiPanNumber;
-    private TextInputEditText etPanNumber;
+    //private TextInputLayout tiPanNumber;
+    private EditText etPanNumber;
 
-    private TextInputLayout tiAadhaarNumber;
-    private TextInputEditText etAadhaarNumber;
+   // private TextInputLayout tiAadhaarNumber;
+    private EditText etAadhaarNumber;
 
-    private TextInputLayout tiDateOfBirth;
-    private TextInputEditText etDateOfBirth;
+    //private TextInputLayout tiDateOfBirth;
+    private EditText etDateOfBirth;
 
-    private TextInputLayout tiGender;
+    //private TextInputLayout tiGender;
     private AutoCompleteTextView etGender;
     private String[] GENDER = {"Male", "Female", "Other"};
 
-    private TextInputLayout tiCompleteAddress;
-    private TextInputEditText etCompleteAddress;
+   // private TextInputLayout tiCompleteAddress;
+    private EditText etCompleteAddress;
 
     private TextView tvUpdateDetails;
     private TextView tvName;
@@ -96,6 +97,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
     private TextView tvChangePhoto;
     private ProgressBar progressPhoto;
     private ImageView ivLogout;
+
 
     private boolean fullNameStatus = false;
     private boolean emailStatus = false;
@@ -141,7 +143,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
         ivGoBack = findViewById(R.id.ivGoBack);
         ivGoBack.setOnClickListener(this);
 
-        tiFullName = findViewById(R.id.tiFullName);
+        //tiFullName = findViewById(R.id.tiFullName);
         etFullName = findViewById(R.id.etFullName);
         etFullName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -166,7 +168,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        tiEmail = findViewById(R.id.tiEmail);
+        //tiEmail = findViewById(R.id.tiEmail);
         etEmail = findViewById(R.id.etEmail);
         etEmail.addTextChangedListener(new TextWatcher() {
             @Override
@@ -193,7 +195,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        tiPanNumber = findViewById(R.id.tiPanNumber);
+        //tiPanNumber = findViewById(R.id.tiPanNumber);
         etPanNumber = findViewById(R.id.etPanNumber);
         etPanNumber.addTextChangedListener(new TextWatcher() {
             @Override
@@ -220,7 +222,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        tiAadhaarNumber = findViewById(R.id.tiAadhaarNumber);
+        //iAadhaarNumber = findViewById(R.id.tiAadhaarNumber);
         etAadhaarNumber = findViewById(R.id.etAadhaarNumber);
         etAadhaarNumber.addTextChangedListener(new TextWatcher() {
             @Override
@@ -247,7 +249,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        tiDateOfBirth = findViewById(R.id.tiDateOfBirth);
+       // tiDateOfBirth = findViewById(R.id.tiDateOfBirth);
         etDateOfBirth = findViewById(R.id.etDateOfBirth);
         etDateOfBirth.setOnClickListener(this);
         etDateOfBirth.addTextChangedListener(new TextWatcher() {
@@ -273,7 +275,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        tiGender = findViewById(R.id.tiGender);
+        //tiGender = findViewById(R.id.tiGender);
         etGender = findViewById(R.id.etGender);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(KycActivity.this,
                 R.layout.support_simple_spinner_dropdown_item,
@@ -302,7 +304,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        tiCompleteAddress = findViewById(R.id.tiCompleteAddress);
+        //tiCompleteAddress = findViewById(R.id.tiCompleteAddress);
         etCompleteAddress = findViewById(R.id.etCompleteAddress);
         etCompleteAddress.addTextChangedListener(new TextWatcher() {
             @Override

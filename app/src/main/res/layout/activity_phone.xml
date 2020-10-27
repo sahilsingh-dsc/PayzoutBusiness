@@ -11,21 +11,21 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center">
 
         <ImageView
             android:layout_width="300dp"
-            android:layout_height="100dp"
+            android:layout_height="300dp"
             android:scaleType="centerCrop"
-            android:padding="16dp"
-            android:layout_marginTop="56dp"
-            android:src="@drawable/payzout_business"/>
+            android:layout_marginTop="30dp"
+            android:src="@drawable/login_screen"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_rectangle"
             android:padding="16dp"
             android:layout_gravity="center"
             android:orientation="vertical">
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="Welcome!"
                 android:gravity="center"
-                android:textSize="25sp"
+                android:textSize="24sp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/montserrat_bold"
                 android:textColor="@color/colorTextH1"/>
@@ -45,27 +45,28 @@
                 android:layout_height="wrap_content"
                 android:text="Log your phone number in to get started."
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/montserrat"
-                android:textColor="@color/colorTextH2"/>
+                android:textColor="@color/colorTextH1"/>
 
             <EditText
                 android:id="@+id/etPhoneNumber"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textSize="16sp"
                 android:inputType="phone"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat"
                 android:hint="Phone number"
-                android:background="@drawable/bg_text_box"/>
+                android:background="@drawable/bg_text_box_new"/>
 
             <TextView
                 android:id="@+id/tvContinue"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:textSize="16sp"

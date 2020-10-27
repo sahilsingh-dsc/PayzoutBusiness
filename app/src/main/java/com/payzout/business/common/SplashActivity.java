@@ -21,7 +21,16 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         initView();
+
+//        if (isLogin()){
+//            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+//        }
     }
+//
+//    private boolean isLogin() {
+//    }
 
     private void initView() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -41,15 +50,22 @@ public class SplashActivity extends AppCompatActivity {
         if (firebaseAuth.getCurrentUser() != null) {
             gotoMain();
         } else {
-            gotoLogin();
+            gotoOnboard();
         }
     }
 
-    private void gotoLogin() {
-        Intent intent = new Intent(SplashActivity.this, PhoneActivity.class);
+    private void gotoOnboard() {
+        Intent intent = new Intent(SplashActivity.this, OnboardActivity.class);
         startActivity(intent);
+        //gotoLogin();
         finish();
     }
+
+//    private void gotoLogin() {
+//        Intent intent = new Intent(SplashActivity.this, PhoneActivity.class);
+//        startActivity(intent);
+//        finish();
+//    }
 
     private void gotoMain() {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
