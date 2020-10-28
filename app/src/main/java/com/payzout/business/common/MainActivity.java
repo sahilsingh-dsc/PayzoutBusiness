@@ -49,7 +49,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, BannerInterface {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LinearLayout lvUser;
     private LinearLayout lvProfitCalculator;
@@ -61,8 +61,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvMobile;
     private ImageView ivKycStatus;
 
-    private RecyclerView recyclerBanner;
+    //private RecyclerView recyclerBanner;
     private ImageView ivUserPhoto;
+    private ImageView ivInvest;
+    private ImageView ivPortfolio;
+    private ImageView ivTransactions;
+    private ImageView ivGetLoan;
 
     private TextView tvWalletBalance;
     private TextView tvProfitBalance;
@@ -107,28 +111,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lvGetLoan.setOnClickListener(this);
         ivKycStatus = findViewById(R.id.ivKycStatus);
 
-        recyclerBanner = findViewById(R.id.recyclerBanner);
-        recyclerBanner.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        SnapHelper snapHelper = new PagerSnapHelper();
-        if (recyclerBanner.getOnFlingListener() == null)
-            snapHelper.attachToRecyclerView(recyclerBanner);
+        ivInvest = findViewById(R.id.ivInvest);
+        ivPortfolio = findViewById(R.id.ivPortfolio);
+        ivTransactions = findViewById(R.id.ivTransactions);
+        ivGetLoan = findViewById(R.id.ivGetLoan);
+
+//        recyclerBanner = findViewById(R.id.recyclerBanner);
+//        recyclerBanner.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+//        SnapHelper snapHelper = new PagerSnapHelper();
+//        if (recyclerBanner.getOnFlingListener() == null)
+//            snapHelper.attachToRecyclerView(recyclerBanner);
 
         if (firebaseAuth.getCurrentUser() != null) {
             uid = firebaseAuth.getCurrentUser().getUid();
-            setupPresenter();
+            //setupPresenter();
             fetchWalletBalance();
         }
 
 
     }
 
-    private void setupPresenter() {
-
-        BannerPresenter bannerPresenter = new BannerPresenter(MainActivity.this, MainActivity.this);
-        bannerPresenter.fetchBanners();
-
-
-    }
+//    private void setupPresenter() {
+//
+//        BannerPresenter bannerPresenter = new BannerPresenter(MainActivity.this, MainActivity.this);
+//        bannerPresenter.fetchBanners();
+//
+//
+//    }
 
 
     @Override
@@ -137,18 +146,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             gotoKyc();
         }
         if (view == lvProfitCalculator) {
+            ivInvest.setImageResource(R.drawable.ic_invest_select);
+            ivPortfolio.setImageResource(R.drawable.ic_portfolio_unselect);
+            ivTransactions.setImageResource(R.drawable.ic_transaction_unselect);
+            ivGetLoan.setImageResource(R.drawable.ic_loan_unselected);
             gotoCalc();
         }
         if (view == lvMyPortfolio) {
+            ivInvest.setImageResource(R.drawable.ic_invest_unselect);
+            ivPortfolio.setImageResource(R.drawable.ic_portfolio_select);
+            ivTransactions.setImageResource(R.drawable.ic_transaction_unselect);
+            ivGetLoan.setImageResource(R.drawable.ic_loan_unselected);
             gotoPortfolio();
         }
         if (view == lvMyTransactions) {
+            ivInvest.setImageResource(R.drawable.ic_invest_unselect);
+            ivPortfolio.setImageResource(R.drawable.ic_portfolio_unselect);
+            ivTransactions.setImageResource(R.drawable.ic_transaction_selected);
+            ivGetLoan.setImageResource(R.drawable.ic_loan_unselected);
             gotoTransactions();
         }
         if (view == ivUserPhoto) {
             gotoKyc();
         }
         if (view == lvGetLoan) {
+            ivInvest.setImageResource(R.drawable.ic_invest_unselect);
+            ivPortfolio.setImageResource(R.drawable.ic_portfolio_unselect);
+            ivTransactions.setImageResource(R.drawable.ic_transaction_unselect);
+            ivGetLoan.setImageResource(R.drawable.ic_loan_selected);
             gotoPlayStore();
         }
     }
@@ -189,22 +214,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void bannerFetchSuccess(List<Banner> bannerList) {
-        BannerAdapter bannerAdapter = new BannerAdapter(bannerList, MainActivity.this);
-        bannerAdapter.notifyDataSetChanged();
-        recyclerBanner.setAdapter(bannerAdapter);
-    }
+   // @Override
+//    public void bannerFetchSuccess(List<Banner> bannerList) {
+//        BannerAdapter bannerAdapter = new BannerAdapter(bannerList, MainActivity.this);
+//        bannerAdapter.notifyDataSetChanged();
+//        recyclerBanner.setAdapter(bannerAdapter);
+//    }
 
-    @Override
-    public void bannerFetchError(String message) {
-        Toast.makeText(this, "" + message, Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void bannerFetchError(String message) {
+//        Toast.makeText(this, "" + message, Toast.LENGTH_SHORT).show();
+//    }
 
-    @Override
-    public void bannerNoFound(String message) {
-        Toast.makeText(this, "" + message, Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void bannerNoFound(String message) {
+//        Toast.makeText(this, "" + message, Toast.LENGTH_SHORT).show();
+//    }
 
     private void fetchWalletBalance() {
 
@@ -279,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences preferences = getSharedPreferences("profile", 0);
         String name = preferences.getString("name", "Complete KYC");
         if (name.equals("Complete KYC")) {
-            ivKycStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_error_24));
+            ivKycStatus.setImageDrawable(getResources().getDrawable(R.drawable.warning_sign));
         } else {
             ivKycStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_check_circle_24));
         }

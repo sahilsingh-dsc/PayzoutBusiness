@@ -51,7 +51,7 @@
 
                 <ImageView
                     android:id="@+id/ivKycStatus"
-                    android:layout_width="15dp"
+                    android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="4dp"
                     android:src="@drawable/warning_sign"/>
@@ -355,7 +355,20 @@
 
 <!--                </com.google.android.material.textfield.TextInputLayout>-->
 
-                <AutoCompleteTextView
+<!--                <AutoCompleteTextView-->
+<!--                    android:id="@+id/etGender"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:paddingStart="16dp"-->
+<!--                    android:paddingEnd="16dp"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:hint="Gender"-->
+<!--                    android:background="@drawable/bg_text_box_new"-->
+<!--                    android:inputType="none"-->
+<!--                    android:fontFamily="@font/montserrat"/>-->
+
+                <Spinner
                     android:id="@+id/etGender"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -363,18 +376,14 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:textSize="16sp"
-                    android:hint="Gender"
-                    android:focusable="false"
-                    android:background="@drawable/bg_text_box_new"
-                    android:inputType="none"
-                    android:fontFamily="@font/montserrat"/>
+                    android:background="@drawable/bg_text_box_new"/>
 
 <!--                <com.google.android.material.textfield.TextInputLayout-->
 <!--                    android:id="@+id/tiGender"-->
-<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"-->
 <!--                    android:layout_width="match_parent"-->
 <!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="4dp"-->
+<!--                    android:layout_marginTop="16dp"-->
 <!--                    android:hint="Gender">-->
 
 <!--                    <AutoCompleteTextView-->
@@ -382,7 +391,9 @@
 <!--                        android:inputType="none"-->
 <!--                        android:focusable="false"-->
 <!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:paddingStart="16dp"-->
+<!--                        android:paddingEnd="16dp"-->
 <!--                        android:fontFamily="@font/montserrat"/>-->
 
 <!--                </com.google.android.material.textfield.TextInputLayout>-->
@@ -396,7 +407,6 @@
                     android:paddingEnd="16dp"
                     android:textSize="16sp"
                     android:hint="Complete address"
-                    android:focusable="false"
                     android:background="@drawable/bg_text_box_new"
                     android:inputType="none"
                     android:fontFamily="@font/montserrat"/>
@@ -431,7 +441,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:background="@drawable/bg_button"
+        android:background="@drawable/bg_button_disabled"
         android:enabled="false"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center"

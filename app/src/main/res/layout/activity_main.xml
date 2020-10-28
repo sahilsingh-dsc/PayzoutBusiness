@@ -53,10 +53,10 @@
 
                 <ImageView
                     android:id="@+id/ivKycStatus"
-                    android:layout_width="15dp"
+                    android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="4dp"
-                    android:src="@drawable/warning_sign"/>
+                    android:src="@drawable/warning_sign" />
 
             </LinearLayout>
 
@@ -79,7 +79,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_text_box_blue"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -87,8 +88,8 @@
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_box_invest"
             android:orientation="vertical"
+            android:layout_marginStart="10dp"
             android:padding="10dp">
 
             <TextView
@@ -104,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="..."
+                android:text="₹ 3000"
                 android:textColor="@color/colorTextH3"
                 android:textSize="16sp" />
 
@@ -113,10 +114,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_box_profit"
+            android:layout_marginStart="10dp"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -133,16 +134,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="..."
+                android:text="₹ 5000"
                 android:textColor="@color/colorTextH3"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginBottom="4dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/bg_box_profit"-->
+<!--            android:orientation="vertical"-->
+<!--            android:padding="10dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/montserrat"-->
+<!--                android:text="Profit Balance"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textColor="@color/colorTextH3" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tvProfitBalance"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/montserrat_bold"-->
+<!--                android:text="..."-->
+<!--                android:textColor="@color/colorTextH3"-->
+<!--                android:textSize="16sp" />-->
+
+<!--        </LinearLayout>-->
 
     </LinearLayout>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -152,25 +181,128 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="2dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerBanner"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="160dp" />
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical">
 
-    </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textColor="@color/colorTextH1"
+                android:fontFamily="@font/montserrat"
+                android:text="Benefits of Investing via Payzout"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_light_blue_circle"
+                        android:src="@drawable/diagram"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/colorTextH1"
+                        android:text="High Returns"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="10sp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_light_blue_circle"
+                        android:src="@drawable/percentage"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/colorTextH1"
+                        android:text="Zero Commission"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10sp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_light_blue_circle"
+                        android:src="@drawable/padlock"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/colorTextH1"
+                        android:text="100% Secure"/>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recyclerBanner"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="160dp" />-->
+
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_undraw_investing_7u74"/>
+            android:src="@drawable/ic_undraw_investing_7u74" />
 
     </LinearLayout>
 
@@ -198,9 +330,10 @@
                 android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/ivInvest"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_invest_select" />
+                    android:src="@drawable/ic_invest_unselect" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -226,6 +359,7 @@
                 android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/ivPortfolio"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_portfolio_unselect" />
@@ -254,6 +388,7 @@
                 android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/ivTransactions"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_transaction_unselect" />
@@ -282,6 +417,7 @@
                 android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/ivGetLoan"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/ic_loan_unselected" />

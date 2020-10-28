@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,7 +56,7 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
     private TextView tvProfitInterest;
     private TextView tvLockingPeriod;
 
-    private TextInputEditText tieInvestmentAmount;
+    private EditText etInvestmentAmount;
 
     private TextView tvInvestNow;
     private ImageView ivGoBack;
@@ -89,8 +90,8 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
         tvInvestNow = findViewById(R.id.tvInvestNow);
         tvInvestNow.setOnClickListener(this);
 
-        tieInvestmentAmount = findViewById(R.id.tieInvestmentAmount);
-        tieInvestmentAmount.addTextChangedListener(new TextWatcher() {
+        etInvestmentAmount = findViewById(R.id.etInvestmentAmount);
+        etInvestmentAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -99,7 +100,7 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String investmentAmount = tieInvestmentAmount.getText().toString();
+                String investmentAmount = etInvestmentAmount.getText().toString();
                 if (investmentAmount.isEmpty()) {
                     tvLockingPeriod.setText("0 months");
                     tvProfitInterest.setText("0%");
@@ -117,7 +118,7 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
                         tvInvestNow.setTextColor(getResources().getColor(R.color.colorTextH3));
                         doCalculateProfit(amt);
                     } else {
-                        tieInvestmentAmount.setError("Min investment amount is ₹ 5000");
+                        etInvestmentAmount.setError("Min investment amount is ₹ 5000");
                         tvInvestNow.setEnabled(false);
                         tvInvestNow.setBackground(getResources().getDrawable(R.drawable.bg_text_box));
                         tvInvestNow.setTextColor(getResources().getColor(R.color.colorTextH2));

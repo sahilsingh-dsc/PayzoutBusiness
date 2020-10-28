@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
@@ -64,7 +66,7 @@ import retrofit2.Response;
 
 public class KycActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    private MaterialCardView cardKYC;
+    private CardView cardKYC;
 
     //private TextInputLayout tiFullName;
     private EditText etFullName;
@@ -82,8 +84,8 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
     private EditText etDateOfBirth;
 
     //private TextInputLayout tiGender;
-    private AutoCompleteTextView etGender;
-    private String[] GENDER = {"Male", "Female", "Other"};
+    private Spinner etGender;
+    private String[] GENDER = {"Select Gender", "Male", "Female", "Other"};
 
    // private TextInputLayout tiCompleteAddress;
     private EditText etCompleteAddress;
@@ -281,28 +283,28 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
                 R.layout.support_simple_spinner_dropdown_item,
                 GENDER);
         etGender.setAdapter(adapter);
-        etGender.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//        etGender.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
 
-            }
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                String gender = etGender.getText().toString();
+//                if (gender.isEmpty()) {
+//                    genderStatus = false;
+//                } else {
+//                    genderStatus = true;
+//                }
+//                checkForValidation();
+//            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String gender = etGender.getText().toString();
-                if (gender.isEmpty()) {
-                    genderStatus = false;
-                } else {
-                    genderStatus = true;
-                }
-                checkForValidation();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
 
         //tiCompleteAddress = findViewById(R.id.tiCompleteAddress);
         etCompleteAddress = findViewById(R.id.etCompleteAddress);
@@ -569,7 +571,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
             tvUpdateDetails.setTextColor(getResources().getColor(R.color.colorTextH3));
         } else {
             tvUpdateDetails.setEnabled(false);
-            tvUpdateDetails.setBackground(getResources().getDrawable(R.drawable.bg_text_box));
+            tvUpdateDetails.setBackground(getResources().getDrawable(R.drawable.bg_button_disabled));
             tvUpdateDetails.setTextColor(getResources().getColor(R.color.colorTextH2));
         }
     }
@@ -583,7 +585,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
         String pancard = etPanNumber.getText().toString();
         String aadhaar = etAadhaarNumber.getText().toString();
         String dob = etDateOfBirth.getText().toString();
-        String gender = etGender.getText().toString();
+        //String gender = etGender.getText().toString();
         String address = etCompleteAddress.getText().toString();
         String phone = firebaseAuth.getCurrentUser().getPhoneNumber();
         String phoneTrim = phone.replace("+91", "");
@@ -597,11 +599,11 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
         profile.setPancard(pancard);
         profile.setAadhaar(aadhaar);
         profile.setDob(dob);
-        profile.setGender(gender);
+        profile.setGender(String.valueOf(1));
         profile.setAddress(address);
 
         disableUI();
-        saveToPreference(uid, name, photo, email, phoneTrim, pancard, aadhaar, dob, gender, address);
+        saveToPreference(uid, name, photo, email, phoneTrim, pancard, aadhaar, dob, String.valueOf(1), address);
         tvName.setText(name);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -618,7 +620,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
                 });
 
         KYCInterface kycInterface = APIClient.getRetrofitInstance().create(KYCInterface.class);
-        Call<KYCResponse> call = kycInterface.sendKYCDetails(uid, email, gender, dob, pancard, aadhaar, name, address);
+        Call<KYCResponse> call = kycInterface.sendKYCDetails(uid, email, String.valueOf(1), dob, pancard, aadhaar, name, address);
         call.enqueue(new Callback<KYCResponse>() {
             @Override
             public void onResponse(Call<KYCResponse> call, Response<KYCResponse> response) {
@@ -675,7 +677,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
         SharedPreferences preferences = getSharedPreferences("profile", 0);
         String name = preferences.getString("name", "Complete KYC");
         if (name.equals("Complete KYC")) {
-            ivKycStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_error_24));
+            ivKycStatus.setImageDrawable(getResources().getDrawable(R.drawable.warning_sign));
             tvUpdateDetails.setVisibility(View.VISIBLE);
         } else {
             ivKycStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_check_circle_24));
@@ -685,7 +687,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
             etPanNumber.setText(preferences.getString("pancard", ""));
             etAadhaarNumber.setText(preferences.getString("aadhaar", ""));
             etDateOfBirth.setText(preferences.getString("dob", ""));
-            etGender.setText(preferences.getString("gender", ""));
+            //etGender.setText(preferences.getString("gender", ""));
             etCompleteAddress.setText(preferences.getString("address", ""));
             disableUI();
         }
