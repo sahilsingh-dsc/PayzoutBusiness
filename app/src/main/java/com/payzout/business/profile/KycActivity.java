@@ -572,7 +572,7 @@ public class KycActivity extends AppCompatActivity implements View.OnClickListen
         } else {
             tvUpdateDetails.setEnabled(false);
             tvUpdateDetails.setBackground(getResources().getDrawable(R.drawable.bg_button_disabled));
-            tvUpdateDetails.setTextColor(getResources().getColor(R.color.colorTextH2));
+            tvUpdateDetails.setTextColor(getResources().getColor(R.color.colorTextH3));
         }
     }
 

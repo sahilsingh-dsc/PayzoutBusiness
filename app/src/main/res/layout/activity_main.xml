@@ -310,7 +310,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:cardElevation="10dp">
+        app:cardElevation="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -333,7 +333,7 @@
                     android:id="@+id/ivInvest"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_invest_unselect" />
+                    android:src="@drawable/ic_invest_select" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -342,7 +342,7 @@
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:text="Invest"
-                    android:textColor="@color/colorTextH1"
+                    android:textColor="@color/colorPrimaryBlue"
                     android:textSize="10sp" />
 
             </LinearLayout>
@@ -362,7 +362,7 @@
                     android:id="@+id/ivPortfolio"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_portfolio_unselect" />
+                    android:src="@drawable/ic_portfolio_select" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -371,7 +371,7 @@
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:text="Portfolio"
-                    android:textColor="@color/colorTextH1"
+                    android:textColor="@color/colorPrimaryBlue"
                     android:textSize="10sp" />
 
             </LinearLayout>
@@ -391,7 +391,7 @@
                     android:id="@+id/ivTransactions"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_transaction_unselect" />
+                    android:src="@drawable/ic_transaction_selected" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -400,7 +400,7 @@
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:text="Transactions"
-                    android:textColor="@color/colorTextH1"
+                    android:textColor="@color/colorPrimaryBlue"
                     android:textSize="10sp" />
 
             </LinearLayout>
@@ -420,7 +420,7 @@
                     android:id="@+id/ivGetLoan"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_loan_unselected" />
+                    android:src="@drawable/ic_loan_selected" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -429,7 +429,7 @@
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
                     android:text="Get Loan"
-                    android:textColor="@color/colorTextH1"
+                    android:textColor="@color/colorPrimaryBlue"
                     android:textSize="10sp" />
 
             </LinearLayout>

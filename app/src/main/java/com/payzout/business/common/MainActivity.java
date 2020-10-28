@@ -146,34 +146,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             gotoKyc();
         }
         if (view == lvProfitCalculator) {
-            ivInvest.setImageResource(R.drawable.ic_invest_select);
-            ivPortfolio.setImageResource(R.drawable.ic_portfolio_unselect);
-            ivTransactions.setImageResource(R.drawable.ic_transaction_unselect);
-            ivGetLoan.setImageResource(R.drawable.ic_loan_unselected);
             gotoCalc();
         }
         if (view == lvMyPortfolio) {
-            ivInvest.setImageResource(R.drawable.ic_invest_unselect);
-            ivPortfolio.setImageResource(R.drawable.ic_portfolio_select);
-            ivTransactions.setImageResource(R.drawable.ic_transaction_unselect);
-            ivGetLoan.setImageResource(R.drawable.ic_loan_unselected);
             gotoPortfolio();
         }
         if (view == lvMyTransactions) {
-            ivInvest.setImageResource(R.drawable.ic_invest_unselect);
-            ivPortfolio.setImageResource(R.drawable.ic_portfolio_unselect);
-            ivTransactions.setImageResource(R.drawable.ic_transaction_selected);
-            ivGetLoan.setImageResource(R.drawable.ic_loan_unselected);
             gotoTransactions();
         }
         if (view == ivUserPhoto) {
             gotoKyc();
         }
         if (view == lvGetLoan) {
-            ivInvest.setImageResource(R.drawable.ic_invest_unselect);
-            ivPortfolio.setImageResource(R.drawable.ic_portfolio_unselect);
-            ivTransactions.setImageResource(R.drawable.ic_transaction_unselect);
-            ivGetLoan.setImageResource(R.drawable.ic_loan_selected);
             gotoPlayStore();
         }
     }

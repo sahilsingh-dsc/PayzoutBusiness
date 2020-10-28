@@ -107,8 +107,8 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
                     tvProfitPerMonth.setText("₹ 0");
                     tvInvestmentAmount.setText("₹ 0");
                     tvInvestNow.setEnabled(false);
-                    tvInvestNow.setBackground(getResources().getDrawable(R.drawable.bg_text_box));
-                    tvInvestNow.setTextColor(getResources().getColor(R.color.colorTextH2));
+                    tvInvestNow.setBackground(getResources().getDrawable(R.drawable.bg_button_disabled));
+                    tvInvestNow.setTextColor(getResources().getColor(R.color.colorTextH3));
                 } else {
                     int amt = Integer.parseInt(investmentAmount);
                     if (amt >= 5000) {
@@ -120,8 +120,8 @@ public class ProfitCalculatorActivity extends AppCompatActivity implements View.
                     } else {
                         etInvestmentAmount.setError("Min investment amount is ₹ 5000");
                         tvInvestNow.setEnabled(false);
-                        tvInvestNow.setBackground(getResources().getDrawable(R.drawable.bg_text_box));
-                        tvInvestNow.setTextColor(getResources().getColor(R.color.colorTextH2));
+                        tvInvestNow.setBackground(getResources().getDrawable(R.drawable.bg_button_disabled));
+                        tvInvestNow.setTextColor(getResources().getColor(R.color.colorTextH3));
                         tvLockingPeriod.setText("0 months");
                         tvProfitInterest.setText("0%");
                         tvProfitPerMonth.setText("₹ 0");
