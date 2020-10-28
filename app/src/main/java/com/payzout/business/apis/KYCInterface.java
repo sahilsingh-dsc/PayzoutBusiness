@@ -1,10 +1,10 @@
 package com.payzout.business.apis;
 
 import com.payzout.business.common.CheckInvestor;
-import com.payzout.business.common.GetWalletBalance;
 import com.payzout.business.common.InvestorRegistration;
 import com.payzout.business.portfolio.CreatePortfolio;
 import com.payzout.business.portfolio.GetPortfolio;
+import com.payzout.business.profile.GetProfile;
 import com.payzout.business.profile.KYCResponse;
 import com.payzout.business.transaction.Transaction;
 
@@ -39,7 +39,6 @@ public interface KYCInterface {
                                         @Field("phone") String phone,
                                         @Field("city") String city);
 
-
     @FormUrlEncoded
     @POST("Investor/getTransaction")
     Call<Transaction> getTransaction(@Field("user_id") String user_id);
@@ -48,11 +47,21 @@ public interface KYCInterface {
     @POST("Investor/createPortfolio")
     Call<CreatePortfolio> createPortfolio(@Field("portfolio_id") String portfolio_id,
                                           @Field("user_id") String user_id,
-                                          @Field("amount") String amount);
+                                          @Field("amount") String amount
+
+    );
 
     @FormUrlEncoded
     @POST("Investor/getPortfolio")
     Call<GetPortfolio> getPortfolio(
-            @Field("user_id") String user_id);
+            @Field("user_id") String user_id
 
+
+    );
+
+    @FormUrlEncoded
+    @POST("Investor/getInvestorProfile")
+    Call<GetProfile> getProfile(@Field("user_id") String user_id);
+
+    //
 }
